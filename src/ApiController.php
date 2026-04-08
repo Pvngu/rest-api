@@ -1,15 +1,15 @@
 <?php
 
-namespace Examyou\RestAPI;
+namespace Laravue\RestAPI;
 
-use Examyou\RestAPI\Exceptions\Parse\NotAllowedToFilterOnThisFieldException;
-use Examyou\RestAPI\Exceptions\ResourceNotFoundException;
-use Examyou\RestAPI\Tests\Models\DummyUser;
+use Laravue\RestAPI\Exceptions\Parse\NotAllowedToFilterOnThisFieldException;
+use Laravue\RestAPI\Exceptions\ResourceNotFoundException;
+use Laravue\RestAPI\Tests\Models\DummyUser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Examyou\RestAPI\ExtendedRelations\BelongsToMany;
+use Laravue\RestAPI\ExtendedRelations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\Relation;

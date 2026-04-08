@@ -1,10 +1,10 @@
 <?php
 
-namespace Examyou\RestAPI\Providers;
+namespace Laravue\RestAPI\Providers;
 
-use Examyou\RestAPI\Handlers\ApiExceptionHandler;
-use Examyou\RestAPI\Routing\ApiResourceRegistrar;
-use Examyou\RestAPI\Routing\ApiRouter;
+use Laravue\RestAPI\Handlers\ApiExceptionHandler;
+use Laravue\RestAPI\Routing\ApiResourceRegistrar;
+use Laravue\RestAPI\Routing\ApiRouter;
 use Illuminate\Container\Container;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Routing\RouteCollection;

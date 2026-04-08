@@ -1,6 +1,6 @@
 <?php
 
-namespace Examyou\RestAPI\Exceptions;
+namespace Laravue\RestAPI\Exceptions;
 
 use Illuminate\Contracts\Support\Jsonable;
 

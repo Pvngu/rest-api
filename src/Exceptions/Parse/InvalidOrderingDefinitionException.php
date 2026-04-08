@@ -1,9 +1,9 @@
 <?php
 
-namespace Examyou\RestAPI\Exceptions\Parse;
+namespace Laravue\RestAPI\Exceptions\Parse;
 
-use Examyou\RestAPI\Exceptions\ApiException;
-use Examyou\RestAPI\Exceptions\ErrorCodes;
+use Laravue\RestAPI\Exceptions\ApiException;
+use Laravue\RestAPI\Exceptions\ErrorCodes;
 
 class InvalidOrderingDefinitionException extends ApiException
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Examyou\RestAPI\Middleware;
+namespace Laravue\RestAPI\Middleware;
 
 use Closure;
-use Examyou\RestAPI\ApiResponse;
-use Examyou\RestAPI\Exceptions\UnauthorizedException;
+use Laravue\RestAPI\ApiResponse;
+use Laravue\RestAPI\Exceptions\UnauthorizedException;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 

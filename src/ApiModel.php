@@ -1,12 +1,12 @@
 <?php
 
-namespace Examyou\RestAPI;
+namespace Laravue\RestAPI;
 
 use Carbon\Carbon;
 use Closure;
 use DateTimeInterface;
-use Examyou\RestAPI\Exceptions\RelatedResourceNotFoundException;
-use Examyou\RestAPI\Exceptions\ResourceNotFoundException;
+use Laravue\RestAPI\Exceptions\RelatedResourceNotFoundException;
+use Laravue\RestAPI\Exceptions\ResourceNotFoundException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

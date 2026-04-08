@@ -1,6 +1,6 @@
 <?php
 
-namespace Examyou\RestAPI\Exceptions;
+namespace Laravue\RestAPI\Exceptions;
 
 class ValidationException extends ApiException
 {

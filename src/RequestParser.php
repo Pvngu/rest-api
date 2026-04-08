@@ -1,12 +1,12 @@
 <?php
 
-namespace Examyou\RestAPI;
+namespace Laravue\RestAPI;
 
-use Examyou\RestAPI\Exceptions\Parse\InvalidLimitException;
-use Examyou\RestAPI\Exceptions\Parse\InvalidFilterDefinitionException;
-use Examyou\RestAPI\Exceptions\Parse\InvalidOrderingDefinitionException;
-use Examyou\RestAPI\Exceptions\Parse\MaxLimitException;
-use Examyou\RestAPI\Exceptions\Parse\NotAllowedToFilterOnThisFieldException;
+use Laravue\RestAPI\Exceptions\Parse\InvalidLimitException;
+use Laravue\RestAPI\Exceptions\Parse\InvalidFilterDefinitionException;
+use Laravue\RestAPI\Exceptions\Parse\InvalidOrderingDefinitionException;
+use Laravue\RestAPI\Exceptions\Parse\MaxLimitException;
+use Laravue\RestAPI\Exceptions\Parse\NotAllowedToFilterOnThisFieldException;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;

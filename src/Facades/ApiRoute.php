@@ -1,8 +1,8 @@
 <?php
 
-namespace Examyou\RestAPI\Facades;
+namespace Laravue\RestAPI\Facades;
 
-use Examyou\RestAPI\Routing\ApiRouter;
+use Laravue\RestAPI\Routing\ApiRouter;
 use Illuminate\Support\Facades\Facade;
 
 class ApiRoute extends Facade

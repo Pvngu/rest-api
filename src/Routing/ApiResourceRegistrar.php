@@ -1,6 +1,6 @@
 <?php
 
-namespace Examyou\RestAPI\Routing;
+namespace Laravue\RestAPI\Routing;
 
 use Illuminate\Routing\ResourceRegistrar;
 use Illuminate\Support\Str;

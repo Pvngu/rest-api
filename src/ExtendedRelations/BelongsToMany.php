@@ -1,6 +1,6 @@
 <?php
 
-namespace Examyou\RestAPI\ExtendedRelations;
+namespace Laravue\RestAPI\ExtendedRelations;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany as LaravelBelongsToMany;
 
 class BelongsToMany extends LaravelBelongsToMany
