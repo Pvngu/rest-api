@@ -1,10 +1,10 @@
 <?php
 
-namespace Laravue\RestAPI\Middleware;
+namespace Laravue2\RestAPI\Middleware;
 
 use Closure;
-use Laravue\RestAPI\ApiResponse;
-use Laravue\RestAPI\Exceptions\UnauthorizedException;
+use Laravue2\RestAPI\ApiResponse;
+use Laravue2\RestAPI\Exceptions\UnauthorizedException;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 

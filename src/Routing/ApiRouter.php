@@ -1,10 +1,10 @@
 <?php
 
-namespace Laravue\RestAPI\Routing;
+namespace Laravue2\RestAPI\Routing;
 
 use Closure;
-use Laravue\RestAPI\Exceptions\ApiException;
-use Laravue\RestAPI\Middleware\ApiMiddleware;
+use Laravue2\RestAPI\Exceptions\ApiException;
+use Laravue2\RestAPI\Middleware\ApiMiddleware;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Routing\ResourceRegistrar;
@@ -25,8 +25,8 @@ class ApiRouter extends Router
      */
     public function resource($name, $controller, array $options = [])
     {
-        if ($this->container && $this->container->bound('Laravue\RestAPI\Routing\ApiResourceRegistrar')) {
-            $registrar = $this->container->make('Laravue\RestAPI\Routing\ApiResourceRegistrar');
+        if ($this->container && $this->container->bound('Laravue2\RestAPI\Routing\ApiResourceRegistrar')) {
+            $registrar = $this->container->make('Laravue2\RestAPI\Routing\ApiResourceRegistrar');
         }
         else {
             $registrar = new ResourceRegistrar($this);

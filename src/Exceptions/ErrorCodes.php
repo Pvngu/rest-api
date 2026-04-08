@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravue\RestAPI\Exceptions;
+namespace Laravue2\RestAPI\Exceptions;
 
 class ErrorCodes
 {

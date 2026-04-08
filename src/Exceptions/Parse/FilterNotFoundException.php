@@ -1,9 +1,9 @@
 <?php
 
-namespace Laravue\RestAPI\Exceptions\Parse;
+namespace Laravue2\RestAPI\Exceptions\Parse;
 
-use Laravue\RestAPI\Exceptions\ApiException;
-use Laravue\RestAPI\Exceptions\ErrorCodes;
+use Laravue2\RestAPI\Exceptions\ApiException;
+use Laravue2\RestAPI\Exceptions\ErrorCodes;
 
 class FilterNotFoundException extends ApiException
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Laravue\RestAPI;
+namespace Laravue2\RestAPI;
 
-use Laravue\RestAPI\Exceptions\ApiException;
+use Laravue2\RestAPI\Exceptions\ApiException;
 
 class ApiResponse
 {

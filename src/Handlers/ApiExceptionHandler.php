@@ -1,13 +1,13 @@
 <?php
 
-namespace Laravue\RestAPI\Handlers;
+namespace Laravue2\RestAPI\Handlers;
 
 use App\Exceptions\Handler;
-use Laravue\RestAPI\ApiResponse;
-use Laravue\RestAPI\Exceptions\ApiException;
-use Laravue\RestAPI\Exceptions\Parse\UnknownFieldException;
-use Laravue\RestAPI\Exceptions\UnauthorizedException;
-use Laravue\RestAPI\Exceptions\ValidationException;
+use Laravue2\RestAPI\ApiResponse;
+use Laravue2\RestAPI\Exceptions\ApiException;
+use Laravue2\RestAPI\Exceptions\Parse\UnknownFieldException;
+use Laravue2\RestAPI\Exceptions\UnauthorizedException;
+use Laravue2\RestAPI\Exceptions\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Exceptions\HttpResponseException;

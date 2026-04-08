@@ -1,5 +1,5 @@
 {
-    "name": "laravue/rest-api",
+    "name": "laravue2/rest-api",
     "description": "RestAPI plugin",
     "type": "library",
     "require": {
@@ -8,7 +8,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Laravue\\RestAPI\\": "src"
+            "Laravue2\\RestAPI\\": "src"
         }
     }
 }

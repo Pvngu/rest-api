@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravue\RestAPI\Routing;
+namespace Laravue2\RestAPI\Routing;
 
 class ApiUrlGenerator extends \Illuminate\Routing\UrlGenerator
 {

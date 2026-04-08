@@ -1,12 +1,12 @@
 <?php
 
-namespace Laravue\RestAPI;
+namespace Laravue2\RestAPI;
 
-use Laravue\RestAPI\Exceptions\Parse\InvalidLimitException;
-use Laravue\RestAPI\Exceptions\Parse\InvalidFilterDefinitionException;
-use Laravue\RestAPI\Exceptions\Parse\InvalidOrderingDefinitionException;
-use Laravue\RestAPI\Exceptions\Parse\MaxLimitException;
-use Laravue\RestAPI\Exceptions\Parse\NotAllowedToFilterOnThisFieldException;
+use Laravue2\RestAPI\Exceptions\Parse\InvalidLimitException;
+use Laravue2\RestAPI\Exceptions\Parse\InvalidFilterDefinitionException;
+use Laravue2\RestAPI\Exceptions\Parse\InvalidOrderingDefinitionException;
+use Laravue2\RestAPI\Exceptions\Parse\MaxLimitException;
+use Laravue2\RestAPI\Exceptions\Parse\NotAllowedToFilterOnThisFieldException;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
