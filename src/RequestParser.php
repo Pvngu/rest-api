@@ -28,12 +28,12 @@ class RequestParser
 	/**
 	 * Checks if filters are correctly specified
 	 */
-	const FILTER_REGEX = "/(\\((?:[\\s]*(?:and|or)?[\\s]*[\\w\\.]+[\\s]+(?:eq|ne|gt|ge|lt|le|lk)[\\s]+(?:\\\"(?:[^\\\"\\\\]|\\\\.)*\\\"|\\d+(,\\d+)*(\\.\\d+(e\\d+)?)?|null)[\\s]*|(?R))*\\))/i";
+	const FILTER_REGEX = "/(\\((?:[\\s]*(?:and|or)?[\\s]*[\\w\\.]+[\\s]+(?:eq|ne|gt|ge|lt|le|lk|in)[\\s]+(?:\\\"(?:[^\\\"\\\\]|\\\\.)*\\\"|\\d+(,\\d+)*(\\.\\d+(e\\d+)?)?|null|\\([\\s\\w\\d\\,\\\"\\-\\.]*\\))[\\s]*|(?R))*\\))/i";
 
 	/**
 	 * Extracts filter parts
 	 */
-	const FILTER_PARTS_REGEX = "/([\\w\\.]+)[\\s]+(?:eq|ne|gt|ge|lt|le|lk)[\\s]+(?:\"(?:[^\"\\\\]|\\\\.)*\"|\\d+(?:,\\d+)*(?:\\.\\d+(?:e\\d+)?)?|null)/i";
+	const FILTER_PARTS_REGEX = "/([\\w\\.]+)[\\s]+(?:eq|ne|gt|ge|lt|le|lk|in)[\\s]+(?:\"(?:[^\"\\\\]|\\\\.)*\"|\\d+(?:,\\d+)*(?:\\.\\d+(?:e\\d+)?)?|null|\\([\\s\\w\\d\\,\\\"\\-\\.]*\\))/i";
 
 	/**
 	 * Checks if ordering is specified correctly
@@ -282,8 +282,8 @@ class RequestParser
 				// Convert filter name to sql `column` format
 				$where = preg_replace(
 					[
-						"/([\\w]+)\\.([\\w]+)[\\s]+(eq|ne|gt|ge|lt|le|lk)/i",
-						"/([\\w]+)[\\s]+(eq|ne|gt|ge|lt|le|lk)/i",
+						"/([\\w]+)\\.([\\w]+)[\\s]+(eq|ne|gt|ge|lt|le|lk|in)/i",
+						"/([\\w]+)[\\s]+(eq|ne|gt|ge|lt|le|lk|in)/i",
 					],
 					[
 						"`$1`.`$2` $3",
@@ -314,7 +314,8 @@ class RequestParser
 						"/[\\s]+ge[\\s]+/i",
 						"/[\\s]+lt[\\s]+/i",
 						"/[\\s]+le[\\s]+/i",
-						"/[\\s]+lk[\\s]+/i"
+						"/[\\s]+lk[\\s]+/i",
+						"/[\\s]+in[\\s]+/i"
 					],
 					[
 						" = ",
@@ -323,7 +324,8 @@ class RequestParser
 						" >= ",
 						" < ",
 						" <= ",
-						" LIKE "
+						" LIKE ",
+						" IN "
 					],
 					$where
 				);
