@@ -33,7 +33,7 @@ class RequestParser
 	/**
 	 * Extracts filter parts
 	 */
-	const FILTER_PARTS_REGEX = "/([\\w\\.]+)[\\s]+(?:eq|ne|gt|ge|lt|le|lk|in)[\\s]+(?:\"(?:[^\"\\\\]|\\\\.)*\"|\\d+(?:,\\d+)*(?:\\.\\d+(?:e\\d+)?)?|null|\\([\\s\\w\\d\\,\\\"\\-\\.]*\\))/i";
+	const FILTER_PARTS_REGEX = "/([\\w\\.]+)[\\s]+(eq|ne|gt|ge|lt|le|lk|in)[\\s]+(\"(?:[^\"\\\\]|\\\\.)*\"|\\d+(?:,\\d+)*(?:\\.\\d+(?:e\\d+)?)?|null|\\([\\s\\w\\d\\,\\\"\\-\\.]*\\))/i";
 
 	/**
 	 * Checks if ordering is specified correctly
@@ -279,56 +279,78 @@ class RequestParser
 
 
 
-				// Convert filter name to sql `column` format
-				$where = preg_replace(
-					[
-						"/([\\w]+)\\.([\\w]+)[\\s]+(eq|ne|gt|ge|lt|le|lk|in)/i",
-						"/([\\w]+)[\\s]+(eq|ne|gt|ge|lt|le|lk|in)/i",
-					],
-					[
-						"`$1`.`$2` $3",
-						"`$1` $2",
-					],
-					$filters
-				);
+				// Process filters using callback to handle quoting and decoding
+				$where = preg_replace_callback(RequestParser::FILTER_PARTS_REGEX, function ($matches) {
+					$column = $matches[1];
+					$operator = strtolower($matches[2]);
+					$value = $matches[3];
 
-				// convert eq null to is null and ne null to is not null
-				$where = preg_replace(
-					[
-						"/ne[\\s]+null/i",
-						"/eq[\\s]+null/i"
-					],
-					[
-						"is not null",
-						"is null"
-					],
-					$where
-				);
+					// Prefix column with table name if not already prefixed and add backticks
+					if (strpos($column, '.') === false) {
+						$column = "`" . $column . "`";
+					} else {
+						$columnParts = explode('.', $column);
+						$column = "`" . $columnParts[0] . "`.`" . $columnParts[1] . "`";
+					}
 
-				// Replace operators
-				$where = preg_replace(
-					[
-						"/[\\s]+eq[\\s]+/i",
-						"/[\\s]+ne[\\s]+/i",
-						"/[\\s]+gt[\\s]+/i",
-						"/[\\s]+ge[\\s]+/i",
-						"/[\\s]+lt[\\s]+/i",
-						"/[\\s]+le[\\s]+/i",
-						"/[\\s]+lk[\\s]+/i",
-						"/[\\s]+in[\\s]+/i"
-					],
-					[
-						" = ",
-						" != ",
-						" > ",
-						" >= ",
-						" < ",
-						" <= ",
-						" LIKE ",
-						" IN "
-					],
-					$where
-				);
+					// Convert operator
+					$opMap = [
+						'eq' => '=', 'ne' => '!=', 'gt' => '>', 'ge' => '>=', 'lt' => '<', 'le' => '<=', 'lk' => 'LIKE', 'in' => 'IN'
+					];
+					$sqlOp = $opMap[$operator] ?? $operator;
+
+					// Process values
+					if ($operator === 'in') {
+						$value = trim($value, '()');
+						$vals = explode(',', $value);
+						$processedVals = [];
+						foreach ($vals as $v) {
+							$v = trim($v);
+							$unquotedV = trim($v, '"\'');
+
+							if (strtolower($unquotedV) === 'null') {
+								$processedVals[] = 'NULL';
+								continue;
+							}
+
+							// Decode if hashid
+							$decoded = Hashids::decode($unquotedV);
+							if (count($decoded) > 0) {
+								$processedVals[] = $decoded[0];
+							} else if (is_numeric($unquotedV)) {
+								$processedVals[] = $unquotedV;
+							} else {
+								// If not numeric and not a hashid, it must be a string.
+								// If it was already quoted, keep it. If not, quote it.
+								if (strpos($v, '"') === 0 || strpos($v, "'") === 0) {
+									$processedVals[] = $v;
+								} else {
+									$processedVals[] = "'" . $v . "'";
+								}
+							}
+						}
+						$value = "(" . implode(', ', $processedVals) . ")";
+					} else {
+						// Handle null
+						if (strtolower($value) === 'null') {
+							if ($operator === 'eq') return $column . " IS NULL";
+							if ($operator === 'ne') return $column . " IS NOT NULL";
+							$value = 'NULL';
+						} else {
+							$unquotedV = trim($value, '"\'');
+							// Decode if hashid
+							$decoded = Hashids::decode($unquotedV);
+							if (count($decoded) > 0) {
+								$value = $decoded[0];
+							} else if (!is_numeric($unquotedV) && strpos($value, '"') !== 0 && strpos($value, "'") !== 0) {
+								// Quote unquoted strings
+								$value = "'" . $value . "'";
+							}
+						}
+					}
+
+					return $column . " " . $sqlOp . " " . $value;
+				}, $filters);
 
 				$this->filters = $where;
 			} else {
