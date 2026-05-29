@@ -155,6 +155,7 @@ class ApiController extends \Illuminate\Routing\Controller
 
 		$results = $this->parseRequest()
 			->addIncludes()
+			->addCounts()
 			->addFilters()
 			->addOrdering()
 			->addPaging()
@@ -186,6 +187,7 @@ class ApiController extends \Illuminate\Routing\Controller
 
 		$results = $this->parseRequest()
 			->addIncludes()
+			->addCounts()
 			->addKeyConstraint($id)
 			->modify()
 			->getResults(true)
@@ -490,6 +492,22 @@ class ApiController extends \Illuminate\Routing\Controller
 	}
 
 	/**
+	 * Adds relationship counts to the query
+	 *
+	 * @return $this
+	 */
+	protected function addCounts()
+	{
+		$counts = $this->parser->getWithCount();
+
+		if (!empty($counts)) {
+			$this->query->withCount($counts);
+		}
+
+		return $this;
+	}
+
+	/**
 	 * Add requested filters. Filters are defined similar to normal SQL queries like
 	 * (name eq "Milk" or name eq "Eggs") and price lt 2.55
 	 * The string should be enclosed in double quotes
@@ -576,6 +594,11 @@ class ApiController extends \Illuminate\Routing\Controller
 				// Add table name to  fields to prevent ambiguous column issues
 				$fields[$key] = $this->table . "." . $field;
 			}
+		}
+
+		$counts = $this->parser->getWithCount();
+		foreach ($counts as $countRelation) {
+			$fields[] = $countRelation . '_count';
 		}
 
 		$this->parser->setFields($fields);

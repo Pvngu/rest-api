@@ -76,6 +76,13 @@ class RequestParser
 	private $relations = [];
 
 	/**
+	 * Relations to be counted
+	 *
+	 * @var array
+	 */
+	private $withCount = [];
+
+	/**
 	 * Number of results requested per page
 	 *
 	 * @var int
@@ -191,6 +198,14 @@ class RequestParser
 	}
 
 	/**
+	 * @return array
+	 */
+	public function getWithCount()
+	{
+		return $this->withCount;
+	}
+
+	/**
 	 * Parse request and fill the parameters
 	 * @return $this current controller object for chain method calling
 	 * @throws InvalidFilterDefinitionException
@@ -220,6 +235,7 @@ class RequestParser
 		$this->extractFields();
 		$this->extractFilters();
 		$this->extractOrdering();
+		$this->extractWithCount();
 		$this->loadTableName();
 
 		$this->attributes = request()->all();
@@ -529,5 +545,21 @@ class RequestParser
 	private function loadTableName()
 	{
 		$this->table = call_user_func($this->model . "::getTableName");
+	}
+
+	/**
+	 * Extract count relations from request
+	 */
+	protected function extractWithCount()
+	{
+		if (request()->with_count) {
+			$relations = explode(',', request()->with_count);
+			foreach ($relations as $relation) {
+				$relation = trim($relation);
+				if (call_user_func($this->model . "::relationExists", $relation)) {
+					$this->withCount[] = $relation;
+				}
+			}
+		}
 	}
 }
