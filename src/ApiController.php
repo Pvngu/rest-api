@@ -155,7 +155,6 @@ class ApiController extends \Illuminate\Routing\Controller
 
 		$results = $this->parseRequest()
 			->addIncludes()
-			->addCounts()
 			->addFilters()
 			->addOrdering()
 			->addPaging()
@@ -187,7 +186,6 @@ class ApiController extends \Illuminate\Routing\Controller
 
 		$results = $this->parseRequest()
 			->addIncludes()
-			->addCounts()
 			->addKeyConstraint($id)
 			->modify()
 			->getResults(true)
@@ -316,7 +314,7 @@ class ApiController extends \Illuminate\Routing\Controller
 		// only object id, and the relation and get the results like normal index request
 
 		$fields = "id," . $relation . ".limit(" . ((request()->limit) ? request()->limit : $this->defaultLimit) .
-			")" . ((request()->offset) ?  ".offset(" . request()->offset . ")" : "")
+			")" . ((request()->offset) ? ".offset(" . request()->offset . ")" : "")
 			. ((request()->fields) ? "{" . request()->fields . "}" : "");
 
 		request()->fields = $fields;
@@ -464,7 +462,7 @@ class ApiController extends \Illuminate\Routing\Controller
 						} else if ($q instanceof HasMany) {
 							$fields[] = $q->getQualifiedForeignKeyName();
 							$fields = array_unique($fields);
-							
+
 							$relations[$key]["foreign"] = $q->getQualifiedForeignKeyName();
 
 							$q->orderBy($primaryKey, ($relation["order"] == "chronological") ? "ASC" : "DESC");
@@ -491,21 +489,7 @@ class ApiController extends \Illuminate\Routing\Controller
 		return $this;
 	}
 
-	/**
-	 * Adds relationship counts to the query
-	 *
-	 * @return $this
-	 */
-	protected function addCounts()
-	{
-		$counts = $this->parser->getWithCount();
 
-		if (!empty($counts)) {
-			$this->query->withCount($counts);
-		}
-
-		return $this;
-	}
 
 	/**
 	 * Add requested filters. Filters are defined similar to normal SQL queries like
@@ -596,13 +580,9 @@ class ApiController extends \Illuminate\Routing\Controller
 			}
 		}
 
-		$counts = $this->parser->getWithCount();
-		foreach ($counts as $countRelation) {
-			$fields[] = $countRelation . '_count';
-		}
-
 		$this->parser->setFields($fields);
 
+		$counts = $this->parser->getWithCount();
 
 		if (!$single) {
 			/** @var Collection $results */
@@ -610,12 +590,18 @@ class ApiController extends \Illuminate\Routing\Controller
 			if (!$this->modifySelect) {
 				$results = $results->select($fields);
 			}
+			if (!empty($counts)) {
+				$results = $results->withCount($counts);
+			}
 			$results = $results->get();
 		} else {
 			/** @var Collection $results */
 			$results = $this->query;
 			if (!$this->modifySelect) {
 				$results = $results->select($fields);
+			}
+			if (!empty($counts)) {
+				$results = $results->withCount($counts);
 			}
 			$results = $results->skip(0)->take(1)->get();
 
